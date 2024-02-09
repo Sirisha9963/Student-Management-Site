@@ -1,0 +1,105 @@
+<?php
+
+session_start();
+$conn=mysqli_connect('localhost','root','','daddy');
+//Update Details
+if(isset($_POST['update'])){
+    $id=$_GET['sno'];
+   
+    $cla=$_POST['class'];
+    $sec=$_POST['section'];
+    $updt="UPDATE `add_class` SET `Class_Name`='$cla',`Section`='$sec' WHERE sno=$id";
+    mysqli_query($conn, $updt);
+      
+    //    header("location:view_class.php");     
+    // }else{     
+    //     echo "something fishee";
+    // }
+}
+if(isset($_GET['sno'])){
+    $id1=$_GET['sno'];
+    $read="select * from add_class where sno='$id1'";
+    $result=mysqli_query($conn, $read);
+    if(mysqli_num_rows($result)==1){
+        $row1=mysqli_fetch_array($result);
+    }
+    else{
+        echo "duplicated rows";
+    }    
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+</head>
+<body>
+        <?php 
+            include "head.php";
+        ?>
+     <div class="container-fluid" style="background-color:#ecf0f4">
+        <div class="row">
+            <div class="col-sm-2 bg-dark ps-0 my-0 text-white">
+                <?php 
+                    include "sidenav.php";
+                ?>
+            </div>
+            <div class="col-sm-10 mt-5">
+            <div class="row">
+              <div class="col-sm-9">
+                <h4 class="ps-3">Manage Class</h4>
+              </div>
+              <div class="col-sm-3">
+              <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                 <li class="breadcrumb-item"><a href="admindashboard.php" style="text-decoration:none">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Manage Class</li>
+              </ol>
+            </nav>
+              </div>
+            </div>
+<form method="post" class="bg-white">
+  <h4 class="text-center">Manage Class</h4>
+  <div class="mb-3 ps-3 pe-3">
+    <label for="exampleInputEmail1" class="form-label">Class Name</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="class" value="<?php echo $row1['Class_Name']?>">
+    
+  </div>
+  <div class="mb-3 ps-3 pe-3">
+  <label for="GFGDataList" class="form-label"> 
+            Sections
+        </label> 
+          
+        <input class="form-control" 
+            list="GFGOptions" id="GFGDataList" 
+            placeholder="Select option" name="section" value="<?php echo $row1['Section']?>"> 
+        <datalist id="GFGOptions"> 
+            <option value="A"> 
+            <option value="B"> 
+            <option value="C"> 
+            <option value="D">
+            <option value="E"> 
+            <option value="F">  
+        </datalist> 
+  </div>
+  <input type="submit" class="btn btn-primary ms-3" name="update" value="Update" onclick="myFunction()">
+</form> 
+<script>
+function myFunction() {
+  window.alert('Class has been updated');
+ 
+}
+</script>
+    </body>
+</html>
+
+
+
+
